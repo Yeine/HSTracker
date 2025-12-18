@@ -91,9 +91,15 @@ class Game: NSObject, PowerEventHandler {
     
     func setHearthstoneActived(flag: Bool) {
         hearthstoneRunState.isActive = flag
-        if flag && currentMode == .bacon || isBattlegroundsMatch() {
-            windowManager.tier7PreLobby.viewModel.onFocus()
-            updateBattlegroundsSessionVisibility()
+        if flag {
+            if currentMode == .bacon || isBattlegroundsMatch() {
+                SizeHelper.hearthstoneWindow.reload()
+                windowManager.tier7PreLobby.viewModel.onFocus()
+                updateBattlegroundsSessionVisibility()
+                updateBattlegroundsOverlays()
+            }
+        } else {
+            updateBattlegroundsOverlays()
         }
     }
 	
