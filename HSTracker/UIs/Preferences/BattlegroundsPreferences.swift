@@ -44,7 +44,11 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet var showBattlegroundsCompStats: NSButton!
     @IBOutlet var alwaysShowTavernTier7: NSButton!
     @IBOutlet var autoShowBattlegroundsTrinketPicking: NSButton!
-    
+    @IBOutlet var enableTier7ToggleHotkey: NSButton!
+    @IBOutlet var tier7HotkeyContainer: NSView!
+
+    private var shortcutRecorder: ShortcutRecorderView?
+
     override func viewWillAppear() {
         super.viewWillAppear()
         
@@ -79,7 +83,38 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showBattlegroundsCompStats.state = Settings.showBattlegroundsTier7SessionCompStats ? .on : .off
         alwaysShowTavernTier7.state = Settings.alwaysShowTier7 ? .on : .off
         autoShowBattlegroundsTrinketPicking.state = Settings.autoShowBattlegroundsTrinketPicking ? .on : .off
+        enableTier7ToggleHotkey?.state = Settings.tier7ToggleHotkeyEnabled ? .on : .off
+        setupShortcutRecorder()
         updateEnablement()
+    }
+
+    private func setupShortcutRecorder() {
+        guard let container = tier7HotkeyContainer, shortcutRecorder == nil else { return }
+
+        let recorder = ShortcutRecorderView(frame: container.bounds)
+        recorder.translatesAutoresizingMaskIntoConstraints = false
+        recorder.keyCode = Settings.tier7ToggleHotkeyKeyCode
+        recorder.modifierFlags = Settings.tier7ToggleHotkeyModifiers
+        recorder.onShortcutChanged = { keyCode, modifiers in
+            Settings.tier7ToggleHotkeyKeyCode = keyCode
+            Settings.tier7ToggleHotkeyModifiers = modifiers
+        }
+
+        container.addSubview(recorder)
+        NSLayoutConstraint.activate([
+            recorder.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            recorder.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            recorder.topAnchor.constraint(equalTo: container.topAnchor),
+            recorder.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
+
+        shortcutRecorder = recorder
+        updateShortcutRecorderEnablement()
+    }
+
+    private func updateShortcutRecorderEnablement() {
+        let enabled = enableTier7Overlay?.state == .on && enableTier7ToggleHotkey?.state == .on
+        shortcutRecorder?.isHidden = !enabled
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -170,6 +205,9 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         } else if sender == autoShowBattlegroundsTrinketPicking {
             Settings.autoShowBattlegroundsTrinketPicking = sender.state == .on
             AppDelegate.instance().coreManager.game.windowManager.battlegroundsTrinketPicking.viewModel.statsVisibility = Settings.autoShowBattlegroundsTrinketPicking
+        } else if sender == enableTier7ToggleHotkey {
+            Settings.tier7ToggleHotkeyEnabled = sender.state == .on
+            updateShortcutRecorderEnablement()
         }
     }
     
@@ -200,7 +238,9 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showHeroPicking.isEnabled = enabled
         showBattlegroundsCompStats.isEnabled = enabled
         showQuestPicking.isEnabled = enabled
+        enableTier7ToggleHotkey?.isEnabled = enabled
         alwaysShowTavernTier7.isEnabled = showTiers.state == .on
+        updateShortcutRecorderEnablement()
     }
     
     @IBAction func reset(_ sender: NSButton) {

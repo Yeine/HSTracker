@@ -72,6 +72,9 @@ final class CoreManager: NSObject {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        if let monitor = globalKeyMonitor {
+            NSEvent.removeMonitor(monitor)
+        }
     }
 
     func memoryFootprint() -> Float? {
@@ -315,6 +318,7 @@ final class CoreManager: NSObject {
     }
     
     var triggers: [NSObjectProtocol] = []
+    private var globalKeyMonitor: Any?
 
     // MARK: - Events
     func startListeners() {
@@ -332,6 +336,27 @@ final class CoreManager: NSObject {
                     trigger(note)
                 }
                 triggers.append(observer)
+            }
+
+            globalKeyMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+                self?.handleGlobalKeyDown(event)
+            }
+        }
+    }
+
+    private func handleGlobalKeyDown(_ event: NSEvent) {
+        guard Settings.tier7ToggleHotkeyEnabled else { return }
+
+        let expectedKeyCode = UInt16(Settings.tier7ToggleHotkeyKeyCode)
+        let expectedModifiers = UInt(Settings.tier7ToggleHotkeyModifiers)
+        let actualModifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask).rawValue
+
+        if event.keyCode == expectedKeyCode && actualModifiers == expectedModifiers {
+            Settings.tier7OverlayHidden.toggle()
+            DispatchQueue.main.async { [weak self] in
+                if #available(macOS 10.15, *) {
+                    self?.game.updateTier7PreLobbyVisibility()
+                }
             }
         }
     }

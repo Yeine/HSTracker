@@ -11,6 +11,8 @@
                 <outlet property="alwaysShowTavernTier7" destination="nIZ-ZN-jaR" id="iEg-JX-ghJ"/>
                 <outlet property="autoShowBattlegroundsTrinketPicking" destination="k99-WS-d2I" id="OVM-yB-3dy"/>
                 <outlet property="enableTier7Overlay" destination="3Ts-2S-wmU" id="lDs-De-84w"/>
+                <outlet property="enableTier7ToggleHotkey" destination="hky-T7-tog" id="hky-con-1"/>
+                <outlet property="tier7HotkeyContainer" destination="hky-cnt-vie" id="hky-con-2"/>
                 <outlet property="scalingSlider" destination="yDm-vs-KsG" id="3zJ-df-F0h"/>
                 <outlet property="scalingValue" destination="Y61-iI-pCa" id="scw-Aq-1M0"/>
                 <outlet property="showAvailable" destination="QEB-1M-9Xe" id="d5H-Cm-8R0"/>
@@ -116,6 +118,36 @@
                                                     <action selector="checkboxClicked:" target="-2" id="lIL-d1-r0X"/>
                                                 </connections>
                                             </button>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="8" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hky-stk-vie">
+                                                <rect key="frame" x="0.0" y="0.0" width="372" height="22"/>
+                                                <subviews>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hky-T7-tog">
+                                                        <rect key="frame" x="-2" y="2" width="134" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Toggle hotkey:" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hky-cel-tog">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="checkboxClicked:" target="-2" id="hky-act-tog"/>
+                                                        </connections>
+                                                    </button>
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="hky-cnt-vie">
+                                                        <rect key="frame" x="140" y="0.0" width="100" height="22"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="100" id="hky-wid-con"/>
+                                                            <constraint firstAttribute="height" constant="22" id="hky-hgt-con"/>
+                                                        </constraints>
+                                                    </customView>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
                                         </subviews>
                                         <edgeInsets key="edgeInsets" left="0.0" right="0.0" top="10" bottom="10"/>
                                         <visibilityPriorities>
@@ -125,8 +157,10 @@
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
+                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
