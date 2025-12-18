@@ -878,7 +878,7 @@ class Game: NSObject, PowerEventHandler {
     @available(macOS 10.15, *)
     @MainActor
     func updateTier7PreLobbyVisibility() {
-        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && !Settings.tier7OverlayHidden && (windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .solo || windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .duos) && windowManager.tier7PreLobby.viewModel.visibility
+        let show = isRunning && isInMenu && !queueEvents.isInQueue && SceneHandler.scene == .bacon && Settings.enableTier7Overlay && Settings.showBattlegroundsTier7PreLobby && Settings.tier7OverlayVisible && (windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .solo || windowManager.tier7PreLobby.viewModel.battlegroundsGameMode == .duos) && windowManager.tier7PreLobby.viewModel.visibility
         if show {
             Task.init {
                 _ = await windowManager.tier7PreLobby.viewModel.update()

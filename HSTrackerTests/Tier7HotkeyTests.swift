@@ -16,14 +16,14 @@ class Tier7HotkeyTests: HSTrackerTests {
 		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_enabled")
 		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_keycode")
 		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_modifiers")
-		UserDefaults.standard.removeObject(forKey: "tier7_overlay_hidden")
+		UserDefaults.standard.removeObject(forKey: "tier7_overlay_visible")
 	}
 
 	override func tearDown() {
 		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_enabled")
 		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_keycode")
 		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_modifiers")
-		UserDefaults.standard.removeObject(forKey: "tier7_overlay_hidden")
+		UserDefaults.standard.removeObject(forKey: "tier7_overlay_visible")
 		super.tearDown()
 	}
 
@@ -41,8 +41,8 @@ class Tier7HotkeyTests: HSTrackerTests {
 		XCTAssertEqual(Settings.tier7ToggleHotkeyModifiers, 0, "Default modifiers should be none")
 	}
 
-	func testDefaultOverlayHidden() {
-		XCTAssertFalse(Settings.tier7OverlayHidden, "Overlay should not be hidden by default")
+	func testDefaultOverlayVisible() {
+		XCTAssertTrue(Settings.tier7OverlayVisible, "Overlay should be visible by default")
 	}
 
 	// MARK: - Settings Persistence Tests
@@ -69,14 +69,14 @@ class Tier7HotkeyTests: HSTrackerTests {
 		XCTAssertEqual(Settings.tier7ToggleHotkeyModifiers, cmdModifier)
 	}
 
-	func testOverlayHiddenToggle() {
-		XCTAssertFalse(Settings.tier7OverlayHidden)
+	func testOverlayVisibleToggle() {
+		XCTAssertTrue(Settings.tier7OverlayVisible)
 
-		Settings.tier7OverlayHidden.toggle()
-		XCTAssertTrue(Settings.tier7OverlayHidden)
+		Settings.tier7OverlayVisible.toggle()
+		XCTAssertFalse(Settings.tier7OverlayVisible)
 
-		Settings.tier7OverlayHidden.toggle()
-		XCTAssertFalse(Settings.tier7OverlayHidden)
+		Settings.tier7OverlayVisible.toggle()
+		XCTAssertTrue(Settings.tier7OverlayVisible)
 	}
 
 	// MARK: - KeyCodes Tests

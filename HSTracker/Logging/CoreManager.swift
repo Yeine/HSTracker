@@ -338,9 +338,23 @@ final class CoreManager: NSObject {
                 triggers.append(observer)
             }
 
-            globalKeyMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
-                self?.handleGlobalKeyDown(event)
-            }
+            startGlobalHotkeyMonitor()
+        }
+    }
+
+    private func startGlobalHotkeyMonitor() {
+        if let existingMonitor = globalKeyMonitor {
+            NSEvent.removeMonitor(existingMonitor)
+            globalKeyMonitor = nil
+        }
+
+        guard AXIsProcessTrusted() else {
+            logger.warning("Accessibility permissions required for global hotkeys. Hotkey feature disabled.")
+            return
+        }
+
+        globalKeyMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            self?.handleGlobalKeyDown(event)
         }
     }
 
@@ -349,14 +363,16 @@ final class CoreManager: NSObject {
 
         let expectedKeyCode = UInt16(Settings.tier7ToggleHotkeyKeyCode)
         let expectedModifiers = UInt(Settings.tier7ToggleHotkeyModifiers)
-        let actualModifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask).rawValue
 
-        if event.keyCode == expectedKeyCode && actualModifiers == expectedModifiers {
-            Settings.tier7OverlayHidden.toggle()
-            DispatchQueue.main.async { [weak self] in
-                if #available(macOS 10.15, *) {
-                    self?.game.updateTier7PreLobbyVisibility()
-                }
+        guard event.keyCode == expectedKeyCode else { return }
+
+        let actualModifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask).rawValue
+        guard actualModifiers == expectedModifiers else { return }
+
+        DispatchQueue.main.async { [weak self] in
+            Settings.tier7OverlayVisible.toggle()
+            if #available(macOS 10.15, *) {
+                self?.game.updateTier7PreLobbyVisibility()
             }
         }
     }

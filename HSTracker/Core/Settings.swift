@@ -302,8 +302,8 @@ final class Settings {
     static var tier7ToggleHotkeyKeyCode: Int
     @UserDefault(key: Settings.tier7_toggle_hotkey_modifiers, defaultValue: 0)
     static var tier7ToggleHotkeyModifiers: Int
-    @UserDefault(key: Settings.tier7_overlay_hidden, defaultValue: false)
-    static var tier7OverlayHidden: Bool
+    @UserDefault(key: Settings.tier7_overlay_visible, defaultValue: true)
+    static var tier7OverlayVisible: Bool
 
     @UserDefault(key: Settings.player_draw_chance, defaultValue: true)
     static var showPlayerDrawChance: Bool
@@ -609,7 +609,7 @@ extension Settings {
     static let tier7_toggle_hotkey_enabled = "tier7_toggle_hotkey_enabled"
     static let tier7_toggle_hotkey_keycode = "tier7_toggle_hotkey_keycode"
     static let tier7_toggle_hotkey_modifiers = "tier7_toggle_hotkey_modifiers"
-    static let tier7_overlay_hidden = "tier7_overlay_hidden"
+    static let tier7_overlay_visible = "tier7_overlay_visible"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"
