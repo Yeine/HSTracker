@@ -165,6 +165,7 @@
 		43C1C9F61E96CCDB008C20B1 /* SecretTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43640BE21E8A328700FAFD07 /* SecretTests.swift */; };
 		43C1C9F71E96CCE9008C20B1 /* AlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */; };
 		43C1C9F81E96CCE9008C20B1 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
+		T7HK00022024121700000002 /* Tier7HotkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T7HK00012024121700000001 /* Tier7HotkeyTests.swift */; };
 		43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */; };
 		43C1C9FB1E96CCE9008C20B1 /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94596811D174FBA008CD47A /* StatsTests.swift */; };
 		43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439B1DF51E86CC280098BBBC /* DatabaseTests.swift */; };
@@ -1645,6 +1646,7 @@
 		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = HSTracker/Info.plist; sourceTree = "<group>"; };
 		439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E601C7772C100D29859 /* HSTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerTests.swift; sourceTree = "<group>"; };
+		T7HK00012024121700000001 /* Tier7HotkeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tier7HotkeyTests.swift; sourceTree = "<group>"; };
 		439C7E621C7772C100D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HSTracker-Bridging-Header.h"; path = "HSTracker/HSTracker-Bridging-Header.h"; sourceTree = "<group>"; };
 		439C7E7D1C777CFC00D29859 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
@@ -3111,6 +3113,7 @@
 				1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
+				T7HK00012024121700000001 /* Tier7HotkeyTests.swift */,
 				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E621C7772C100D29859 /* Info.plist */,
 				439B1DF51E86CC280098BBBC /* DatabaseTests.swift */,
@@ -6377,6 +6380,7 @@
 				43C1C9F61E96CCDB008C20B1 /* SecretTests.swift in Sources */,
 				43C1C9FB1E96CCE9008C20B1 /* StatsTests.swift in Sources */,
 				43C1C9F81E96CCE9008C20B1 /* HSTrackerTests.swift in Sources */,
+				T7HK00022024121700000002 /* Tier7HotkeyTests.swift in Sources */,
 				43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */,
 				43C1C9F71E96CCE9008C20B1 /* AlgorithmTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,
