@@ -59,6 +59,7 @@ class Tier7PreLobby: OverWindowController {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         if viewModel.userState == .unknownPlayer {
             anonymousHover.isHidden = false
         }

@@ -94,6 +94,7 @@ class BattlegroundsGameView: NSView {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         guard frame.height > 0 && !frame.height.isNaN else {
             return
         }

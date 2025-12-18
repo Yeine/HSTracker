@@ -144,6 +144,7 @@ class CounterView: NSView {
     var delayedTooltip: DelayedTooltip?
 
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         if window != nil {
             delayedTooltip = DelayedTooltip(handler: tooltipDisplay, 0.600, nil)
         }

@@ -101,7 +101,11 @@ class Game: NSObject, PowerEventHandler {
 		self.selfAppActive = flag
         self.updateTrackers()
 	}
-    
+
+    var isInteractionAllowed: Bool {
+        return hearthstoneRunState.isActive || selfAppActive
+    }
+
     func getBattlegroundsBoardStateFor(id: Int) -> BoardSnapshot? {
         return _battlegroundsBoardState?.getSnapshot(entityId: id)
     }

@@ -119,6 +119,7 @@ class BgHeroesToastView: NSView {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         NSCursor.pointingHand.set()
     }
     

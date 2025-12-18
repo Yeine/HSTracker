@@ -75,6 +75,7 @@ class BattlegroundsSingleHeroStats: NSView {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         if let id = viewModel.heroDbfId {
             setSelectedHeroDbfIdCommand?(id)
         }

@@ -81,6 +81,7 @@ class BattlegroundsHeroHeader: NSView {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         if #available(macOS 10.15.0, *) {
             Task.init {
                 if await Debounce.wasCalledAgain(milliseconds: 100, callerMemberName: "AvgPlacementTrigger") {

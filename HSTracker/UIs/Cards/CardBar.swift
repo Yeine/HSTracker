@@ -873,6 +873,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         if let card = self.card {
             delegate?.hover(cell: self, card: card)
         }

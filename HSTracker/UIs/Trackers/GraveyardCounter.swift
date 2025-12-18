@@ -55,7 +55,7 @@ class GraveyardCounter: TextFrame {
     }
     
     override func mouseEntered(with theEvent: NSEvent) {
-        
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         self.updateGraveyard()
         var point = theEvent.locationInWindow
         

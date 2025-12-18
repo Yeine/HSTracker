@@ -21,6 +21,7 @@ class MercenariesTaskListButton: OverWindowController {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         let wm = AppDelegate.instance().coreManager.game.windowManager
         showMercTasks = true
         DispatchQueue.main.asyncAfter(deadline: Dispatch.DispatchTime.now() + .milliseconds(150)) {

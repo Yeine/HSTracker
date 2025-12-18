@@ -128,6 +128,7 @@ class LinkOpponentDeckPanel: OverWindowController, NSTextViewDelegate {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         mouseIsOver = true
     }
 

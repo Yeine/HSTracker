@@ -90,6 +90,7 @@ class Tracker: OverWindowController, CardCellHover {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         if window?.mouseLocationOutsideOfEventStream.y ?? 0 >= bottomY {
             AppDelegate.instance().coreManager.game.windowManager.linkOpponentDeckPanel.showByOpponentStack()
         }

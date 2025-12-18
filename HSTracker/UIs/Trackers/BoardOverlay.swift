@@ -208,6 +208,7 @@ class BoardMinionView: NSView {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         delayedTooltip?.cancel()
         delayedTooltip = DelayedTooltip(handler: tooltipDisplay(_:), 0.250, nil)
     }

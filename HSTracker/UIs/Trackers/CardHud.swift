@@ -155,6 +155,7 @@ class CardHud: NSView {
     }
 
     override func mouseEntered(with event: NSEvent) {
+        guard AppDelegate.instance().coreManager.game.isInteractionAllowed else { return }
         guard let card = self.sourceCard else { return }
         guard let rect = self.superview?.convert(self.frame, to: nil) else { return }
         guard let frame = self.superview?.window?.convertToScreen(rect) else { return }
