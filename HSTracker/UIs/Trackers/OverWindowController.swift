@@ -47,6 +47,7 @@ class OverWindowController: NSWindowController {
      */
     func updateFrames() {
         // If the windows are unlocked, we want to be able to click on them to move them
-        self.window!.ignoresMouseEvents = Settings.windowsLocked
+        // alwaysLocked overlays (like FinalBoard) should always ignore mouse events
+        self.window!.ignoresMouseEvents = Settings.windowsLocked || alwaysLocked
     }
 }
