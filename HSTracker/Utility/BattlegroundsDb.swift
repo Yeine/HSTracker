@@ -22,7 +22,8 @@ class BattlegroundsDb {
     private var _spellsByTier = [Int: [Card]]()
     private var _solosExclusiveSpellsByTier = [Int: [Card]]()
     private var _duosExclusiveSpellsByTier = [Int: [Card]]()
-    
+    private var _buddies = [Card]()
+
     var races = Set<Race>()
     
     fileprivate init() {
@@ -131,8 +132,12 @@ class BattlegroundsDb {
                 _spellsByTier[tier]?.append(card)
             }
         }
+
+        _buddies.removeAll()
+        let buddyCards = Cards.cards.filter({ x in x.type == .battleground_hero_buddy })
+        _buddies = buddyCards.sorted(by: { (a, b) -> Bool in a.name < b.name })
     }
-    
+
     private func getRaces(_ card: Card) -> [Race] {
         if card.race == .invalid {
             let racesInText = races.filter { x in x != .all && x != .invalid }.filter { x in
@@ -208,5 +213,9 @@ class BattlegroundsDb {
             exclusiveSpells = theExclusiveSpells
         }
         return spells + exclusiveSpells
+    }
+
+    func getBuddies() -> [Card] {
+        return _buddies
     }
 }

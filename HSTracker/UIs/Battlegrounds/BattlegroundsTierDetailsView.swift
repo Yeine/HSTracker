@@ -127,27 +127,44 @@ import Foundation
                 }
                 groups.append(CardGroup(tier: tierGroup, minionType: minionType, raceName: "", groupedByMinionType: true, cards: cards))
             }
+        } else if showingBuddies {
+            let buddies = BattlegroundsDbSingleton.instance.getBuddies()
+            if buddies.count > 0 {
+                groups.append(CardGroup(tier: -2, minionType: -2, raceName: String.localizedString("Buddies", comment: ""), groupedByMinionType: false, cards: buddies))
+            }
         }
         return groups
     }
     
     private var hoverTimer: Timer?
     
+    var showingBuddies = false
+
     func setTier(tier: Int) {
         let game = AppDelegate.instance().coreManager.game
         self.activeTier = tier
         self.activeMinionType = nil
+        self.showingBuddies = false
         self.availableRaces = game.availableRaces
         self.isDuos = game.isBattlegroundsDuosMatch()
         let anomalyDbfId = BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity)
         self.anomaly = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
-        
+
+        updateCardGroups()
+    }
+
+    func setBuddies() {
+        self.activeTier = nil
+        self.activeMinionType = nil
+        self.showingBuddies = true
+
         updateCardGroups()
     }
     
     private func filterByMinionType(_ race: Race) {
         self.activeTier = nil
         self.activeMinionType = Race.lookup(race)
+        self.showingBuddies = false
         updateCardGroups()
     }
     

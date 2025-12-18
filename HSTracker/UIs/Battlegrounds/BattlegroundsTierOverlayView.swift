@@ -9,6 +9,8 @@
 import Foundation
 
 class BattlegroundsTierOverlayView: NSView {
+    static let buddiesTier = 8
+
     var currentTier = 0
     var hoverTier = 0
     var showing = false
@@ -16,6 +18,7 @@ class BattlegroundsTierOverlayView: NSView {
     var isThorimRelevant = false
     var isNorgannonsRewardRelevant = false
     var isPageFishingRodRelevant = false
+    var hasBuddiesInLobby = false
 
     init() {
         super.init(frame: NSRect.zero)
@@ -33,10 +36,15 @@ class BattlegroundsTierOverlayView: NSView {
         return Settings.alwaysShowTier7 || isThorimRelevant || isPageFishingRodRelevant || isNorgannonsRewardRelevant
     }
 
+    var showBuddies: Bool {
+        return hasBuddiesInLobby
+    }
+
     func unhideTier() {
         if !showing {
             let anomalyDbfId =  BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: AppDelegate.instance().coreManager.game.gameEntity)
             let anomalyCardId = Cards.by(dbfId: anomalyDbfId, collectible: false)?.id
+            onAnomaly(anomalyCardId: anomalyCardId)
             let availableTiers = BattlegroundsUtils.getAvailableTiers(anomalyCardId: anomalyCardId)
             for i in 1...7 {
                 self.availableTiers[i-1] = false
@@ -72,6 +80,7 @@ class BattlegroundsTierOverlayView: NSView {
         isThorimRelevant = false
         isNorgannonsRewardRelevant = false
         isPageFishingRodRelevant = false
+        hasBuddiesInLobby = false
     }
     
     func drawTier(tier: Int, x: Int) {
@@ -92,16 +101,38 @@ class BattlegroundsTierOverlayView: NSView {
         }
     }
 
+    func drawBuddies(x: Int) {
+        guard let rp = Bundle.main.resourcePath else {
+            return
+        }
+        let buddiesTier = BattlegroundsTierOverlayView.buddiesTier
+        if hoverTier != 0 && buddiesTier == hoverTier || hoverTier == 0 && buddiesTier == currentTier {
+            let rect = NSRect(x: x, y: 8, width: 40, height: 40)
+            if let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-glow.png") {
+                image.draw(in: rect)
+            }
+        }
+
+        let rect = NSRect(x: x + 2, y: 10, width: 36, height: 36)
+        if let image = NSImage(contentsOfFile: "\(rp)/Resources/Battlegrounds/tier-buddies.png") {
+            image.draw(in: rect, from: NSRect(origin: CGPoint(x: 0, y: 0), size: image.size), operation: .sourceOver, fraction: hoverTier == buddiesTier ? 1.0 : 1.0)
+        }
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         let backgroundColor: NSColor = NSColor(red: 35/255.0, green: 39/255.0, blue: 42/255.0, alpha: 1.0)
         backgroundColor.set()
         dirtyRect.fill()
-        
+
         let tiers = showTavernTier7 ? 7 : 6
-        
+
         for i in 1...tiers {
             drawTier(tier: i, x: 8 + (i - 1) * 48)
+        }
+
+        if showBuddies {
+            drawBuddies(x: 8 + tiers * 48)
         }
     }
     
@@ -121,7 +152,7 @@ class BattlegroundsTierOverlayView: NSView {
     func displayTier(tier: Int, force: Bool = false) {
         if tier != currentTier || force {
             currentTier = tier
-            
+
             let windowManager = AppDelegate.instance().coreManager.game.windowManager
             let controller = windowManager.battlegroundsTierDetailsWindowController
             if tier >= 1 && tier <= 7 {
@@ -130,6 +161,12 @@ class BattlegroundsTierOverlayView: NSView {
                                    frame: frame, overlay: true)
                 controller.detailsView?.contentFrame = frame
                 controller.detailsView?.setTier(tier: tier)
+            } else if tier == BattlegroundsTierOverlayView.buddiesTier {
+                let frame = SizeHelper.battlegroundsTierDetailFrame()
+                windowManager.show(controller: controller, show: true,
+                                   frame: frame, overlay: true)
+                controller.detailsView?.contentFrame = frame
+                controller.detailsView?.setBuddies()
             } else {
                 windowManager.show(controller: controller, show: false)
             }
@@ -142,8 +179,13 @@ class BattlegroundsTierOverlayView: NSView {
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         let tiers = showTavernTier7 ? 7 : 6
+        let buddiesIndex = tiers + 1
+
         if index >= 1 && index <= tiers {
             displayTier(tier: index == currentTier ? 0 : index)
+        } else if showBuddies && index == buddiesIndex {
+            let newTier = currentTier == BattlegroundsTierOverlayView.buddiesTier ? 0 : BattlegroundsTierOverlayView.buddiesTier
+            displayTier(tier: newTier)
         } else {
             displayTier(tier: 0)
         }
@@ -156,9 +198,12 @@ class BattlegroundsTierOverlayView: NSView {
         }
         let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         let tiers = showTavernTier7 ? 7 : 6
+        let buddiesIndex = tiers + 1
 
         if index >= 1 && index <= tiers {
             hoverTier = index
+        } else if showBuddies && index == buddiesIndex {
+            hoverTier = BattlegroundsTierOverlayView.buddiesTier
         } else {
             hoverTier = 0
         }
@@ -188,6 +233,17 @@ class BattlegroundsTierOverlayView: NSView {
         isNorgannonsRewardRelevant = quests.contains(CardIds.NonCollectible.Neutral.NorgannonsReward)
         DispatchQueue.main.async {
             AppDelegate.instance().coreManager.game.updateBattlegroundsTierOverlay(reset: false)
+        }
+    }
+
+    func onAnomaly(anomalyCardId: String?) {
+        guard let cardId = anomalyCardId, let card = Cards.by(cardId: cardId) else {
+            hasBuddiesInLobby = false
+            return
+        }
+        hasBuddiesInLobby = card.enText.lowercased().contains("discover a buddy")
+        DispatchQueue.main.async {
+            self.needsDisplay = true
         }
     }
 }
