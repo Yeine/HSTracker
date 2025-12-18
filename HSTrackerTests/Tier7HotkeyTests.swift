@@ -11,167 +11,153 @@ import XCTest
 
 class Tier7HotkeyTests: HSTrackerTests {
 
-    override func setUp() {
-        super.setUp()
-        UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_enabled")
-        UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_keycode")
-        UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_modifiers")
-        UserDefaults.standard.removeObject(forKey: "tier7_overlay_hidden")
-    }
+	override func setUp() {
+		super.setUp()
+		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_enabled")
+		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_keycode")
+		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_modifiers")
+		UserDefaults.standard.removeObject(forKey: "tier7_overlay_hidden")
+	}
 
-    override func tearDown() {
-        UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_enabled")
-        UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_keycode")
-        UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_modifiers")
-        UserDefaults.standard.removeObject(forKey: "tier7_overlay_hidden")
-        super.tearDown()
-    }
+	override func tearDown() {
+		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_enabled")
+		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_keycode")
+		UserDefaults.standard.removeObject(forKey: "tier7_toggle_hotkey_modifiers")
+		UserDefaults.standard.removeObject(forKey: "tier7_overlay_hidden")
+		super.tearDown()
+	}
 
-    // MARK: - Settings Default Values Tests
+	// MARK: - Settings Default Values Tests
 
-    func testDefaultHotkeyEnabled() {
-        XCTAssertTrue(Settings.tier7ToggleHotkeyEnabled, "Hotkey should be enabled by default")
-    }
+	func testDefaultHotkeyEnabled() {
+		XCTAssertTrue(Settings.tier7ToggleHotkeyEnabled, "Hotkey should be enabled by default")
+	}
 
-    func testDefaultHotkeyKeyCode() {
-        XCTAssertEqual(Settings.tier7ToggleHotkeyKeyCode, 98, "Default key code should be 98 (F7)")
-    }
+	func testDefaultHotkeyKeyCode() {
+		XCTAssertEqual(Settings.tier7ToggleHotkeyKeyCode, KeyCodes.f7, "Default key code should be F7")
+	}
 
-    func testDefaultHotkeyModifiers() {
-        XCTAssertEqual(Settings.tier7ToggleHotkeyModifiers, 0, "Default modifiers should be 0 (none)")
-    }
+	func testDefaultHotkeyModifiers() {
+		XCTAssertEqual(Settings.tier7ToggleHotkeyModifiers, 0, "Default modifiers should be none")
+	}
 
-    func testDefaultOverlayHidden() {
-        XCTAssertFalse(Settings.tier7OverlayHidden, "Overlay should not be hidden by default")
-    }
+	func testDefaultOverlayHidden() {
+		XCTAssertFalse(Settings.tier7OverlayHidden, "Overlay should not be hidden by default")
+	}
 
-    // MARK: - Settings Persistence Tests
+	// MARK: - Settings Persistence Tests
 
-    func testHotkeyEnabledPersistence() {
-        Settings.tier7ToggleHotkeyEnabled = false
-        XCTAssertFalse(Settings.tier7ToggleHotkeyEnabled)
+	func testHotkeyEnabledPersistence() {
+		Settings.tier7ToggleHotkeyEnabled = false
+		XCTAssertFalse(Settings.tier7ToggleHotkeyEnabled)
 
-        Settings.tier7ToggleHotkeyEnabled = true
-        XCTAssertTrue(Settings.tier7ToggleHotkeyEnabled)
-    }
+		Settings.tier7ToggleHotkeyEnabled = true
+		XCTAssertTrue(Settings.tier7ToggleHotkeyEnabled)
+	}
 
-    func testHotkeyKeyCodePersistence() {
-        Settings.tier7ToggleHotkeyKeyCode = 122 // F1
-        XCTAssertEqual(Settings.tier7ToggleHotkeyKeyCode, 122)
+	func testHotkeyKeyCodePersistence() {
+		Settings.tier7ToggleHotkeyKeyCode = 122 // F1
+		XCTAssertEqual(Settings.tier7ToggleHotkeyKeyCode, 122)
 
-        Settings.tier7ToggleHotkeyKeyCode = 120 // F2
-        XCTAssertEqual(Settings.tier7ToggleHotkeyKeyCode, 120)
-    }
+		Settings.tier7ToggleHotkeyKeyCode = 120 // F2
+		XCTAssertEqual(Settings.tier7ToggleHotkeyKeyCode, 120)
+	}
 
-    func testHotkeyModifiersPersistence() {
-        let cmdModifier = Int(NSEvent.ModifierFlags.command.rawValue)
-        Settings.tier7ToggleHotkeyModifiers = cmdModifier
-        XCTAssertEqual(Settings.tier7ToggleHotkeyModifiers, cmdModifier)
+	func testHotkeyModifiersPersistence() {
+		let cmdModifier = Int(NSEvent.ModifierFlags.command.rawValue)
+		Settings.tier7ToggleHotkeyModifiers = cmdModifier
+		XCTAssertEqual(Settings.tier7ToggleHotkeyModifiers, cmdModifier)
+	}
 
-        let shiftCmdModifier = Int(NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue)
-        Settings.tier7ToggleHotkeyModifiers = shiftCmdModifier
-        XCTAssertEqual(Settings.tier7ToggleHotkeyModifiers, shiftCmdModifier)
-    }
+	func testOverlayHiddenToggle() {
+		XCTAssertFalse(Settings.tier7OverlayHidden)
 
-    func testOverlayHiddenPersistence() {
-        Settings.tier7OverlayHidden = true
-        XCTAssertTrue(Settings.tier7OverlayHidden)
+		Settings.tier7OverlayHidden.toggle()
+		XCTAssertTrue(Settings.tier7OverlayHidden)
 
-        Settings.tier7OverlayHidden = false
-        XCTAssertFalse(Settings.tier7OverlayHidden)
-    }
+		Settings.tier7OverlayHidden.toggle()
+		XCTAssertFalse(Settings.tier7OverlayHidden)
+	}
 
-    func testOverlayHiddenToggle() {
-        XCTAssertFalse(Settings.tier7OverlayHidden)
+	// MARK: - KeyCodes Tests
 
-        Settings.tier7OverlayHidden.toggle()
-        XCTAssertTrue(Settings.tier7OverlayHidden)
+	func testKeyCodeConstants() {
+		XCTAssertEqual(KeyCodes.f7, 98)
+		XCTAssertEqual(KeyCodes.escape, 53)
+	}
 
-        Settings.tier7OverlayHidden.toggle()
-        XCTAssertFalse(Settings.tier7OverlayHidden)
-    }
+	func testKeyCodeToString() {
+		XCTAssertEqual(KeyCodes.toString(KeyCodes.f7), "F7")
+		XCTAssertEqual(KeyCodes.toString(KeyCodes.escape), "⎋")
+		XCTAssertEqual(KeyCodes.toString(0), "A")
+		XCTAssertEqual(KeyCodes.toString(999), "Key999")
+	}
 
-    // MARK: - ShortcutRecorderView Tests
+	func testShortcutStringNoModifiers() {
+		let result = KeyCodes.shortcutString(keyCode: KeyCodes.f7, modifiers: 0)
+		XCTAssertEqual(result, "F7")
+	}
 
-    func testShortcutRecorderViewInitialization() {
-        let recorder = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 100, height: 22))
-        XCTAssertEqual(recorder.keyCode, 98, "Default key code should be F7")
-        XCTAssertEqual(recorder.modifierFlags, 0, "Default modifiers should be none")
-    }
+	func testShortcutStringWithCommand() {
+		let modifiers = Int(NSEvent.ModifierFlags.command.rawValue)
+		let result = KeyCodes.shortcutString(keyCode: 17, modifiers: modifiers) // T
+		XCTAssertEqual(result, "⌘T")
+	}
 
-    func testShortcutRecorderViewKeyCodeUpdate() {
-        let recorder = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 100, height: 22))
-        recorder.keyCode = 122 // F1
-        XCTAssertEqual(recorder.keyCode, 122)
-    }
+	func testShortcutStringWithMultipleModifiers() {
+		let modifiers = Int(NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue)
+		let result = KeyCodes.shortcutString(keyCode: 17, modifiers: modifiers) // T
+		XCTAssertEqual(result, "⇧⌘T")
+	}
 
-    func testShortcutRecorderViewModifiersUpdate() {
-        let recorder = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 100, height: 22))
-        let cmdModifier = Int(NSEvent.ModifierFlags.command.rawValue)
-        recorder.modifierFlags = cmdModifier
-        XCTAssertEqual(recorder.modifierFlags, cmdModifier)
-    }
+	// MARK: - ShortcutRecorderView Tests
 
-    func testShortcutRecorderViewCallback() {
-        let recorder = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 100, height: 22))
-        var callbackCalled = false
-        var receivedKeyCode = 0
-        var receivedModifiers = 0
+	func testShortcutRecorderViewInitialization() {
+		let recorder = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 100, height: 22))
+		XCTAssertEqual(recorder.keyCode, KeyCodes.f7)
+		XCTAssertEqual(recorder.modifierFlags, 0)
+	}
 
-        recorder.onShortcutChanged = { keyCode, modifiers in
-            callbackCalled = true
-            receivedKeyCode = keyCode
-            receivedModifiers = modifiers
-        }
+	func testShortcutRecorderViewCallback() {
+		let recorder = ShortcutRecorderView(frame: NSRect(x: 0, y: 0, width: 100, height: 22))
+		var callbackCalled = false
+		var receivedKeyCode = 0
 
-        recorder.keyCode = 100 // F8
-        recorder.modifierFlags = Int(NSEvent.ModifierFlags.option.rawValue)
-        recorder.onShortcutChanged?(recorder.keyCode, recorder.modifierFlags)
+		recorder.onShortcutChanged = { keyCode, _ in
+			callbackCalled = true
+			receivedKeyCode = keyCode
+		}
 
-        XCTAssertTrue(callbackCalled)
-        XCTAssertEqual(receivedKeyCode, 100)
-        XCTAssertEqual(receivedModifiers, Int(NSEvent.ModifierFlags.option.rawValue))
-    }
+		recorder.keyCode = 100 // F8
+		recorder.onShortcutChanged?(recorder.keyCode, recorder.modifierFlags)
 
-    // MARK: - Hotkey Matching Logic Tests
+		XCTAssertTrue(callbackCalled)
+		XCTAssertEqual(receivedKeyCode, 100)
+	}
 
-    func testHotkeyMatchingWithNoModifiers() {
-        let expectedKeyCode: UInt16 = 98 // F7
-        let expectedModifiers: UInt = 0
+	// MARK: - Hotkey Matching Logic Tests
 
-        let eventKeyCode: UInt16 = 98
-        let eventModifiers: UInt = 0
+	func testHotkeyMatchingExact() {
+		let expectedKeyCode: UInt16 = UInt16(KeyCodes.f7)
+		let expectedModifiers: UInt = 0
 
-        XCTAssertTrue(eventKeyCode == expectedKeyCode && eventModifiers == expectedModifiers)
-    }
+		let eventKeyCode: UInt16 = UInt16(KeyCodes.f7)
+		let eventModifiers: UInt = 0
 
-    func testHotkeyMatchingWithModifiers() {
-        let expectedKeyCode: UInt16 = 17 // T
-        let expectedModifiers = NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue
+		XCTAssertTrue(eventKeyCode == expectedKeyCode && eventModifiers == expectedModifiers)
+	}
 
-        let eventKeyCode: UInt16 = 17
-        let eventModifiers = NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue
+	func testHotkeyNotMatchingWrongKey() {
+		let expectedKeyCode: UInt16 = UInt16(KeyCodes.f7)
+		let eventKeyCode: UInt16 = 99 // F3
 
-        XCTAssertTrue(eventKeyCode == expectedKeyCode && eventModifiers == expectedModifiers)
-    }
+		XCTAssertFalse(eventKeyCode == expectedKeyCode)
+	}
 
-    func testHotkeyNotMatchingWrongKey() {
-        let expectedKeyCode: UInt16 = 98 // F7
-        let expectedModifiers: UInt = 0
+	func testHotkeyNotMatchingWrongModifiers() {
+		let expectedModifiers = NSEvent.ModifierFlags.command.rawValue
+		let eventModifiers = NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue
 
-        let eventKeyCode: UInt16 = 99 // F3
-        let eventModifiers: UInt = 0
-
-        XCTAssertFalse(eventKeyCode == expectedKeyCode && eventModifiers == expectedModifiers)
-    }
-
-    func testHotkeyNotMatchingWrongModifiers() {
-        let expectedKeyCode: UInt16 = 17 // T
-        let expectedModifiers = NSEvent.ModifierFlags.command.rawValue
-
-        let eventKeyCode: UInt16 = 17
-        let eventModifiers = NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue
-
-        XCTAssertFalse(eventKeyCode == expectedKeyCode && eventModifiers == expectedModifiers)
-    }
+		XCTAssertFalse(eventModifiers == expectedModifiers)
+	}
 }

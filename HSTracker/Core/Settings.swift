@@ -298,7 +298,7 @@ final class Settings {
     static var autoShowBattlegroundsTrinketPicking: Bool
     @UserDefault(key: Settings.tier7_toggle_hotkey_enabled, defaultValue: true)
     static var tier7ToggleHotkeyEnabled: Bool
-    @UserDefault(key: Settings.tier7_toggle_hotkey_keycode, defaultValue: 98)
+    @UserDefault(key: Settings.tier7_toggle_hotkey_keycode, defaultValue: KeyCodes.f7)
     static var tier7ToggleHotkeyKeyCode: Int
     @UserDefault(key: Settings.tier7_toggle_hotkey_modifiers, defaultValue: 0)
     static var tier7ToggleHotkeyModifiers: Int
