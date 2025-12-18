@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsTierDetailWindowController" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="detailsView" destination="W6h-05-TZZ" id="VSA-Za-fFw"/>
+                <outlet property="scrollView" destination="scr-01-view" id="scr-outlet-1"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="g56-dO-7It"/>
             </connections>
         </customObject>
@@ -23,15 +24,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="W6h-05-TZZ" customClass="BattlegroundsTierDetailsView" customModule="HSTracker" customModuleProvider="target">
+                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scr-01-view">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                    </customView>
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="clip-01-view">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <customView id="W6h-05-TZZ" customClass="BattlegroundsTierDetailsView" customModule="HSTracker" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                </customView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="hscr-01">
+                            <rect key="frame" x="-100" y="-100" width="480" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="vscr-01">
+                            <rect key="frame" x="464" y="0.0" width="16" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="W6h-05-TZZ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="5qW-kw-sqQ"/>
-                    <constraint firstAttribute="trailing" secondItem="W6h-05-TZZ" secondAttribute="trailing" id="NUU-qI-3UP"/>
-                    <constraint firstAttribute="bottom" secondItem="W6h-05-TZZ" secondAttribute="bottom" id="PwZ-Sq-ghS"/>
-                    <constraint firstItem="W6h-05-TZZ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="XI6-bD-OAC"/>
+                    <constraint firstItem="scr-01-view" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="5qW-kw-sqQ"/>
+                    <constraint firstAttribute="trailing" secondItem="scr-01-view" secondAttribute="trailing" id="NUU-qI-3UP"/>
+                    <constraint firstAttribute="bottom" secondItem="scr-01-view" secondAttribute="bottom" id="PwZ-Sq-ghS"/>
+                    <constraint firstItem="scr-01-view" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="XI6-bD-OAC"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="139" y="147"/>

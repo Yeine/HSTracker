@@ -9,7 +9,7 @@
 import Foundation
 
 @objc class BattlegroundsTierDetailsView: NSView, CardCellHover {
-    
+
     struct CardGroup {
         var tier: Int
         var minionType: Int
@@ -17,17 +17,23 @@ import Foundation
         var groupedByMinionType: Bool
         var cards: [Card]
     }
-    
+
+    static let minCardHeight = CGFloat(kTinyRowHeight)
+    static let groupHeaderHeight: CGFloat = 30.0
+
     var contentFrame = NSRect.zero
-    
+    var onContentChanged: (() -> Void)?
+
+    override var isFlipped: Bool { true }
+
     init() {
         super.init(frame: NSRect.zero)
     }
-    
+
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -192,11 +198,14 @@ import Foundation
             minionTypes = types
         }
         needsLayout = true
+        DispatchQueue.main.async { [weak self] in
+            self?.onContentChanged?()
+        }
     }
     
     override func layout() {
         super.layout()
-        
+
         var cardHeight = switch Settings.cardSize {
         case .tiny:
             CGFloat(kTinyRowHeight)
@@ -214,20 +223,29 @@ import Foundation
             totalCards += group.cards.count
         }
         let typesSize = minionTypes?.intrinsicContentSize ?? NSSize(width: 0, height: 0)
-        var totalHeight = 30.0 * CGFloat(groups.count) + CGFloat(totalCards) * cardHeight + typesSize.height
-        if totalHeight > contentFrame.height {
-            totalHeight = contentFrame.height
-            cardHeight = (totalHeight - typesSize.height - 30.0 * CGFloat(groups.count)) / CGFloat(totalCards)
+        let headerHeight = Self.groupHeaderHeight * CGFloat(internalGroups.count)
+        var totalHeight = headerHeight + CGFloat(totalCards) * cardHeight + typesSize.height
+
+        if totalHeight > contentFrame.height && totalCards > 0 {
+            let availableForCards = contentFrame.height - typesSize.height - headerHeight
+            let compressedHeight = availableForCards / CGFloat(totalCards)
+            cardHeight = max(compressedHeight, Self.minCardHeight)
+            totalHeight = headerHeight + CGFloat(totalCards) * cardHeight + typesSize.height
         }
-        var y = contentFrame.height
+
+        let viewHeight = max(totalHeight, contentFrame.height)
+        if abs(frame.height - viewHeight) > 0.5 {
+            setFrameSize(NSSize(width: frame.width, height: viewHeight))
+        }
+
+        var y: CGFloat = 0
         for group in internalGroups {
             group.cardHeight = cardHeight
-            let h = 30.0 + CGFloat(group.cards.count) * cardHeight
-            y -= h
+            let h = Self.groupHeaderHeight + CGFloat(group.cards.count) * cardHeight
             group.frame = NSRect(x: 0, y: y, width: frame.width, height: h)
             group.cardsList.updateFrames()
+            y += h
         }
-        y -= typesSize.height
         minionTypes?.frame = NSRect(x: 0, y: y, width: frame.width, height: typesSize.height)
     }
     
