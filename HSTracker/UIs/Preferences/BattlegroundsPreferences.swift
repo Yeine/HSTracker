@@ -43,6 +43,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
     @IBOutlet var scalingValue: NSTextField!
     @IBOutlet var showBattlegroundsCompStats: NSButton!
     @IBOutlet var alwaysShowTavernTier7: NSButton!
+    @IBOutlet var alwaysShowBuddies: NSButton!
     @IBOutlet var autoShowBattlegroundsTrinketPicking: NSButton!
     
     override func viewWillAppear() {
@@ -78,6 +79,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         scalingValue.doubleValue = Settings.battlegroundsSessionScaling
         showBattlegroundsCompStats.state = Settings.showBattlegroundsTier7SessionCompStats ? .on : .off
         alwaysShowTavernTier7.state = Settings.alwaysShowTier7 ? .on : .off
+        alwaysShowBuddies.state = Settings.alwaysShowBuddies ? .on : .off
         autoShowBattlegroundsTrinketPicking.state = Settings.autoShowBattlegroundsTrinketPicking ? .on : .off
         updateEnablement()
     }
@@ -167,6 +169,8 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
             Settings.showBattlegroundsTier7SessionCompStats = sender.state == .on
         } else if sender == alwaysShowTavernTier7 {
             Settings.alwaysShowTier7 = sender.state == .on
+        } else if sender == alwaysShowBuddies {
+            Settings.alwaysShowBuddies = sender.state == .on
         } else if sender == autoShowBattlegroundsTrinketPicking {
             Settings.autoShowBattlegroundsTrinketPicking = sender.state == .on
             AppDelegate.instance().coreManager.game.windowManager.battlegroundsTrinketPicking.viewModel.statsVisibility = Settings.autoShowBattlegroundsTrinketPicking
@@ -201,6 +205,7 @@ class BattlegroundsPreferences: NSViewController, PreferencePane {
         showBattlegroundsCompStats.isEnabled = enabled
         showQuestPicking.isEnabled = enabled
         alwaysShowTavernTier7.isEnabled = showTiers.state == .on
+        alwaysShowBuddies.isEnabled = showTiers.state == .on
     }
     
     @IBAction func reset(_ sender: NSButton) {

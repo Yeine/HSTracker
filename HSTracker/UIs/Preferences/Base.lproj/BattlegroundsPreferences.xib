@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsPreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="alwaysShowTavernTier7" destination="nIZ-ZN-jaR" id="iEg-JX-ghJ"/>
+                <outlet property="alwaysShowBuddies" destination="bdy-Tk-42B" id="gHi-JK-lmN"/>
                 <outlet property="autoShowBattlegroundsTrinketPicking" destination="k99-WS-d2I" id="OVM-yB-3dy"/>
                 <outlet property="enableTier7Overlay" destination="3Ts-2S-wmU" id="lDs-De-84w"/>
                 <outlet property="scalingSlider" destination="yDm-vs-KsG" id="3zJ-df-F0h"/>
@@ -253,6 +254,16 @@
                             </buttonCell>
                             <connections>
                                 <action selector="checkboxClicked:" target="-2" id="q81-TX-SYp"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bdy-Tk-42B">
+                            <rect key="frame" x="8" y="349" width="150" height="18"/>
+                            <buttonCell key="cell" type="check" title="Always show Buddies" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Lkm-Hs-91x">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="checkboxClicked:" target="-2" id="ABC-12-def"/>
                             </connections>
                         </button>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3HM-F3-XZP">
@@ -526,8 +537,10 @@
                         <integer value="1000"/>
                         <integer value="1000"/>
                         <integer value="1000"/>
+                        <integer value="1000"/>
                     </visibilityPriorities>
                     <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>

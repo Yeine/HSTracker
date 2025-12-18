@@ -37,7 +37,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
 
     var showBuddies: Bool {
-        return hasBuddiesInLobby
+        return Settings.alwaysShowBuddies || hasBuddiesInLobby
     }
 
     func unhideTier() {
