@@ -11,6 +11,7 @@
 		1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventParser.swift */; };
 		1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D2511E82DEE700ED4047 /* RealmHelper.swift */; };
 		1C561C991EC1EC6600007A46 /* ReplayUploadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C561C981EC1EC6600007A46 /* ReplayUploadTests.swift */; };
+		CFDEAD022024122000000002 /* MirrorHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDEAD012024122000000001 /* MirrorHelperTests.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
 		1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
@@ -1459,6 +1460,7 @@
 		1C17D24B1E82C81700ED4047 /* LogEventParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEventParser.swift; sourceTree = "<group>"; };
 		1C17D2511E82DEE700ED4047 /* RealmHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmHelper.swift; sourceTree = "<group>"; };
 		1C561C981EC1EC6600007A46 /* ReplayUploadTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayUploadTests.swift; sourceTree = "<group>"; };
+		CFDEAD012024122000000001 /* MirrorHelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelperTests.swift; sourceTree = "<group>"; };
 		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
 		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
 		1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerParserTests.swift; sourceTree = "<group>"; };
@@ -3115,6 +3117,7 @@
 				43640BE21E8A328700FAFD07 /* SecretTests.swift */,
 				439BD8C81EBCD40200959F69 /* EnumTests.swift */,
 				1C561C981EC1EC6600007A46 /* ReplayUploadTests.swift */,
+				CFDEAD012024122000000001 /* MirrorHelperTests.swift */,
 				43B712C01F75115500796F92 /* HSTracker-Test-Bridging-Header.h */,
 			);
 			path = HSTrackerTests;
@@ -6299,6 +6302,7 @@
 				43C1CA781E96CD6F008C20B1 /* Http.swift in Sources */,
 				43C1CA7D1E96CD6F008C20B1 /* StatsHelper.swift in Sources */,
 				1C561C991EC1EC6600007A46 /* ReplayUploadTests.swift in Sources */,
+				CFDEAD022024122000000002 /* MirrorHelperTests.swift in Sources */,
 				B8643D0A275981F600B2D708 /* Collection.swift in Sources */,
 				43C1CA7E1E96CD6F008C20B1 /* LadderGrid.swift in Sources */,
 				43C1CA7F1E96CD6F008C20B1 /* Ranks.swift in Sources */,

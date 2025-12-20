@@ -388,6 +388,9 @@ struct MirrorHelper {
     }
     
     static func getCardChoices() -> MirrorCardChoices? {
+        guard CoreManager.hearthstoneApp != nil else {
+            return nil
+        }
         var result: MirrorCardChoices?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getCardChoices()

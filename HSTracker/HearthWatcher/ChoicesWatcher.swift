@@ -71,7 +71,11 @@ class ChoicesWatcher {
             if !_watch.load(ordering: .sequentiallyConsistent) {
                 break
             }
-            
+
+            guard MirrorHelper.isInitialized() else {
+                continue
+            }
+
             let value = MirrorHelper.getCardChoices()
             let curr = ChoicesWatcherArgs(choice: value)
             if curr == _prev {
